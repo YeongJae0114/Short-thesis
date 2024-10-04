@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>논문 초록 목록</title>
+</head>
+<body>
+<h1>논문 초록 목록</h1>
+<ul>
+  <li th:each="abstract : ${abstracts}" th:text="${abstract}">논문 초록이 여기 표시됩니다.</li>
+</ul>
+</body>
+</html>
