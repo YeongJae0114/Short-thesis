@@ -24,17 +24,16 @@ public class ScriptGenerationService {
     @Value("${message.additional_instructions}")
     private String additionalInstructions;
 
-    public List<String> createScript(String title, String affiliation){
+    public List<KciArticleAbstract> createScript(String title, String affiliation){
         List<KciArticleAbstract> abstractList = kciAbstractService.getAllAbstract(title, affiliation);
-        List<String> scripts = new ArrayList<>();
 
-        for (int i = 0; i < abstractList.size(); i++) {
-            KciArticleAbstract articleAbstract = abstractList.get(i);
+        for (KciArticleAbstract articleAbstract : abstractList) {
             String abstractText = articleAbstract.getAbstractCt();
             String gpt4Response = openAiChatModel.call(stringMessage(abstractText));
-            scripts.add(gpt4Response);
+            articleAbstract.setAbstractCt(gpt4Response);
+
         }
-        return scripts;
+        return abstractList;
     }
 
     private String stringMessage(String introduction){
