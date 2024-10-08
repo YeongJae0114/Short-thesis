@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
+@Entity
 public class AbstractScriptInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +20,6 @@ public class AbstractScriptInfo {
     private String url;
     private int pubYear;
 
-    @OneToMany
-    private List<Author> authors;
+    @OneToMany(mappedBy = "abstractScriptInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Author> authors = new ArrayList<>();
 }
