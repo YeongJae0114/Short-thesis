@@ -1,0 +1,8 @@
+package TestAI.openAI.script.repository;
+
+import TestAI.openAI.script.entity.Author;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AuthorRepository extends JpaRepository<Author, Long> {
+
+}
