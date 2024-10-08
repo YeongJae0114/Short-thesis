@@ -3,6 +3,7 @@ package TestAI.openAI.script.service;
 import TestAI.openAI.kci.abstractInfo.KciArticleAbstract;
 import TestAI.openAI.script.entity.AbstractScriptInfo;
 import TestAI.openAI.script.entity.Author;
+import TestAI.openAI.script.repository.AuthorRepository;
 import TestAI.openAI.script.repository.GeneratedScriptRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ScriptStorageService {
     private final ScriptGenerationService scriptGenerationService;
     private final GeneratedScriptRepository generatedScriptRepository;
+    private final AuthorRepository authorRepository;
 
     @Transactional
     public AbstractScriptInfo saveAbstractScriptInfo(KciArticleAbstract kciArticleAbstract){
@@ -23,17 +25,23 @@ public class ScriptStorageService {
         scriptInfo.setArticleId(kciArticleAbstract.getArticleId());
         scriptInfo.setArticleTitle(kciArticleAbstract.getArticleTitle());
         scriptInfo.setShortFormScript(kciArticleAbstract.getAbstractCt());
-        scriptInfo.setAuthors(StringToAuthor(kciArticleAbstract.getAuthors()));
         scriptInfo.setUrl(kciArticleAbstract.getUrl());
         scriptInfo.setPubYear(kciArticleAbstract.getPubYear());
         generatedScriptRepository.save(scriptInfo);
+        //
+        saveAuthor(kciArticleAbstract.getAuthors());
 
         return scriptInfo;
     }
 
-    private List<Author> StringToAuthor(List<String> preAuthorList){
-        List<Author> authors = new ArrayList<>();
+    public void saveAuthor(List<String> authorList){
+        List<Author> authors = stringToAuthor(authorList);
+        authorRepository.saveAll(authors);
+    }
 
+
+    private List<Author> stringToAuthor(List<String> preAuthorList){
+        List<Author> authors = new ArrayList<>();
         for (String preAuthors : preAuthorList) {
             Author author = new Author();
             String[] parts = preAuthors.split("\\(");
