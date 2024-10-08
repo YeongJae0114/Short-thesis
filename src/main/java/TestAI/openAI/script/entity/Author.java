@@ -13,8 +13,5 @@ public class Author {
     private Long id;
     private String name;
     private String affiliation;
-
-    @ManyToOne
-    @JoinColumn(name = "abstract_script_info_id")
-    private AbstractScriptInfo abstractScriptInfo;
+    private String articleId;
 }

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter
@@ -16,10 +14,9 @@ public class AbstractScriptInfo {
     private Long id;
     private String articleId;
     private String articleTitle;
+    @Column(columnDefinition = "TEXT")
     private String shortFormScript;
     private String url;
     private int pubYear;
 
-    @OneToMany(mappedBy = "abstractScriptInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Author> authors = new ArrayList<>();
 }
