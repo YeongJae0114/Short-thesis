@@ -2,6 +2,7 @@ package TestAI.openAI.script.service;
 
 import TestAI.openAI.kci.abstractInfo.KciArticleAbstract;
 import TestAI.openAI.kci.service.KciAbstractService;
+import TestAI.openAI.script.entity.AbstractScriptInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,8 @@ import java.util.List;
 public class ScriptGenerationService {
     private final OpenAiChatModel openAiChatModel;
     private final KciAbstractService kciAbstractService;
+    private final ScriptStorageService scriptStorageService;
+    private final ShortFormVideoService shortFormVideoService;
 
     @Value("${message.instructions}")
     private String instructions;
@@ -24,16 +27,19 @@ public class ScriptGenerationService {
     @Value("${message.additional_instructions}")
     private String additionalInstructions;
 
-    public List<KciArticleAbstract> createScript(String title, String affiliation){
+    public List<AbstractScriptInfo> createScript(String title, String affiliation){
         List<KciArticleAbstract> abstractList = kciAbstractService.getAllAbstract(title, affiliation);
+        List<AbstractScriptInfo> shortFormScriptList = new ArrayList<>();
 
         for (KciArticleAbstract articleAbstract : abstractList) {
             String abstractText = articleAbstract.getAbstractCt();
             String gpt4Response = openAiChatModel.call(stringMessage(abstractText));
-            articleAbstract.setAbstractCt(gpt4Response);
 
+            articleAbstract.setAbstractCt(gpt4Response);
+            shortFormScriptList.add(scriptStorageService.saveAbstractScriptInfo(articleAbstract));
         }
-        return abstractList;
+        shortFormVideoService.saveVideoUrl(shortFormScriptList);
+        return shortFormScriptList;
     }
 
     private String stringMessage(String introduction){
