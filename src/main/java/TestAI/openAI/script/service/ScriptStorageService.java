@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ScriptStorageService {
-    private final ScriptGenerationService scriptGenerationService;
     private final GeneratedScriptRepository generatedScriptRepository;
     private final AuthorRepository authorRepository;
 
