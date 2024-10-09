@@ -4,21 +4,25 @@ import TestAI.openAI.kci.abstractInfo.KciArticleAbstract;
 import TestAI.openAI.kci.service.KciAbstractService;
 import TestAI.openAI.script.dto.CreateVideoDto;
 import TestAI.openAI.script.entity.AbstractScriptInfo;
+import TestAI.openAI.script.repository.GeneratedScriptRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ScriptGenerationService {
     private final OpenAiChatModel openAiChatModel;
     private final KciAbstractService kciAbstractService;
     private final ScriptStorageService scriptStorageService;
+    private final GeneratedScriptRepository generatedScriptRepository;
 
     @Value("${message.instructions}")
     private String instructions;
@@ -36,11 +40,18 @@ public class ScriptGenerationService {
 
             String abstractText = articleAbstract.getAbstractCt();
             String gpt4Response = openAiChatModel.call(stringMessage(abstractText));
+
             createVideoDto.setArticleId(articleAbstract.getArticleId());
             createVideoDto.setShortFormScript(gpt4Response);
             articleAbstract.setAbstractCt(gpt4Response);
-            scriptStorageService.saveAbstractScriptInfo(articleAbstract);
-            createVideoList.add(createVideoDto);
+
+            Optional<AbstractScriptInfo> existing = generatedScriptRepository.findByArticleId(articleAbstract.getArticleId());
+            if (existing.isEmpty()){
+                scriptStorageService.saveAbstractScriptInfo(articleAbstract);
+                createVideoList.add(createVideoDto);
+            }else {
+                log.info("[이미 존재하는 articleId]");
+            }
         }
         return createVideoList;
     }

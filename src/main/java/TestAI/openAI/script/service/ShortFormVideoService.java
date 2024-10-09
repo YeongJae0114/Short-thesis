@@ -25,7 +25,8 @@ public class ShortFormVideoService {
             String thesis_id = createVideoDto.getArticleId();
             String requestUrl = apiUrl + "?text="+script + "&tag="+tag + "&thesis_id="+thesis_id;
 
-            restTemplate.postForObject(requestUrl, null, String.class);
+            String videoUrl = restTemplate.postForObject(requestUrl, null, String.class);
+            System.out.println(videoUrl);
         }
         log.info("[createVideoDto] 전달 완료");
     }
