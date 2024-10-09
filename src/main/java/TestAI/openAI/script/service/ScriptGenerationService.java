@@ -2,6 +2,7 @@ package TestAI.openAI.script.service;
 
 import TestAI.openAI.kci.abstractInfo.KciArticleAbstract;
 import TestAI.openAI.kci.service.KciAbstractService;
+import TestAI.openAI.script.dto.CreateVideoDto;
 import TestAI.openAI.script.entity.AbstractScriptInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -18,7 +19,6 @@ public class ScriptGenerationService {
     private final OpenAiChatModel openAiChatModel;
     private final KciAbstractService kciAbstractService;
     private final ScriptStorageService scriptStorageService;
-    private final ShortFormVideoService shortFormVideoService;
 
     @Value("${message.instructions}")
     private String instructions;
@@ -27,19 +27,22 @@ public class ScriptGenerationService {
     @Value("${message.additional_instructions}")
     private String additionalInstructions;
 
-    public List<AbstractScriptInfo> createScript(String title, String affiliation){
+    public List<CreateVideoDto> createScript(String title, String affiliation){
+        // KCI에서 논문의 정보를 받음
         List<KciArticleAbstract> abstractList = kciAbstractService.getAllAbstract(title, affiliation);
-        List<AbstractScriptInfo> shortFormScriptList = new ArrayList<>();
-
+        List<CreateVideoDto> createVideoList = new ArrayList<>();
         for (KciArticleAbstract articleAbstract : abstractList) {
+            CreateVideoDto createVideoDto = new CreateVideoDto();
+
             String abstractText = articleAbstract.getAbstractCt();
             String gpt4Response = openAiChatModel.call(stringMessage(abstractText));
-
+            createVideoDto.setArticleId(articleAbstract.getArticleId());
+            createVideoDto.setShortFormScript(gpt4Response);
             articleAbstract.setAbstractCt(gpt4Response);
-            shortFormScriptList.add(scriptStorageService.saveAbstractScriptInfo(articleAbstract));
+            scriptStorageService.saveAbstractScriptInfo(articleAbstract);
+            createVideoList.add(createVideoDto);
         }
-        shortFormVideoService.saveVideoUrl(shortFormScriptList);
-        return shortFormScriptList;
+        return createVideoList;
     }
 
     private String stringMessage(String introduction){

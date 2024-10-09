@@ -42,11 +42,16 @@ public class ScriptStorageService {
     }
 
 
-    private List<Author> stringToAuthor(List<String> preAuthorList, String articleId){
+    private List<Author> stringToAuthor(List<String> preAuthorList, String articleId) {
         List<Author> authors = new ArrayList<>();
         for (String preAuthors : preAuthorList) {
-            Author author = new Author();
             String[] parts = preAuthors.split("\\(");
+            if (parts.length < 2) {
+                // 이름이나 소속 정보가 없는 경우 예외 처리
+                System.out.println("Invalid author format: " + preAuthors);
+                continue;
+            }
+            Author author = new Author();
             author.setName(parts[0].trim());
             author.setAffiliation(parts[1].replace(")", "").trim());
             author.setArticleId(articleId);
