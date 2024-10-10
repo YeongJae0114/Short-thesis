@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,18 +40,30 @@ public class ScriptStorageService {
     private List<Author> stringToAuthor(List<String> preAuthorList, String articleId) {
         List<Author> authors = new ArrayList<>();
         for (String preAuthors : preAuthorList) {
-            String[] parts = preAuthors.split("\\(");
-            if (parts.length < 2) {
+            int startIdx = preAuthors.indexOf("(");
+            int endIdx = preAuthors.lastIndexOf(")");
+            if (startIdx == -1 || endIdx == -1 || startIdx > endIdx) {
                 // 이름이나 소속 정보가 없는 경우 예외 처리
                 System.out.println("Invalid author format: " + preAuthors);
                 continue;
             }
             Author author = new Author();
-            author.setName(parts[0].trim());
-            author.setAffiliation(parts[1].replace(")", "").trim());
+            author.setName(preAuthors.substring(0, startIdx).trim());
+            author.setAffiliation(preAuthors.substring(startIdx + 1, endIdx).trim());
             author.setArticleId(articleId);
             authors.add(author);
         }
         return authors;
+    }
+
+    public void updateVideoUrlByArticleId(String articleId, String videoUrl) {
+        Optional<AbstractScriptInfo> existing = generatedScriptRepository.findByArticleId(articleId);
+        if (existing.isPresent()) {
+            AbstractScriptInfo scriptInfo = existing.get();
+            scriptInfo.setVideoUrl(videoUrl);
+            generatedScriptRepository.save(scriptInfo);
+        } else {
+            throw new IllegalArgumentException("Article with the given articleId does not exist.");
+        }
     }
 }
