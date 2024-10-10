@@ -46,6 +46,8 @@ dependencies {
 	implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
 	// JAXB runtime implementation
 	implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.1'
+	// webflux 의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 }
 
