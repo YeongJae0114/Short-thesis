@@ -8,6 +8,7 @@ import TestAI.openAI.script.repository.GeneratedScriptRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class ScriptStorageService {
         return authors;
     }
 
-    public void updateVideoUrlByArticleId(String articleId, String videoUrl) {
+    public Mono<Void> updateVideoUrlByArticleId(String articleId, String videoUrl) {
         Optional<AbstractScriptInfo> existing = generatedScriptRepository.findByArticleId(articleId);
         if (existing.isPresent()) {
             AbstractScriptInfo scriptInfo = existing.get();
@@ -65,5 +66,6 @@ public class ScriptStorageService {
         } else {
             throw new IllegalArgumentException("Article with the given articleId does not exist.");
         }
+        return Mono.empty();
     }
 }
