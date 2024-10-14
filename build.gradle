@@ -48,6 +48,9 @@ dependencies {
 	implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.1'
 	// webflux 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	// MacOS Silicon 라이브러리 누락 문제
+	runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.104.Final:osx-aarch_64'
+
 
 }
 
