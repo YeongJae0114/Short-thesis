@@ -35,23 +35,21 @@ public class ScriptGenerationService {
         // KCI에서 논문의 정보를 받음
         List<KciArticleAbstract> abstractList = kciAbstractService.getAllAbstract(title, affiliation);
         List<CreateVideoDto> createVideoList = new ArrayList<>();
+
         for (KciArticleAbstract articleAbstract : abstractList) {
             CreateVideoDto createVideoDto = new CreateVideoDto();
-
-            String abstractText = articleAbstract.getAbstractCt();
-            String gpt4Response = openAiChatModel.call(stringMessage(abstractText));
+            if (generatedScriptRepository.findByArticleId(articleAbstract.getArticleId()).isPresent()){
+                log.info("[이미 존재하는 articleId = {}]",articleAbstract.getArticleId());
+                continue;
+            }
+            String gpt4Response = openAiChatModel.call(stringMessage(articleAbstract.getAbstractCt()));
 
             createVideoDto.setArticleId(articleAbstract.getArticleId());
             createVideoDto.setShortFormScript(gpt4Response);
             articleAbstract.setAbstractCt(gpt4Response);
-
-            Optional<AbstractScriptInfo> existing = generatedScriptRepository.findByArticleId(articleAbstract.getArticleId());
-            if (existing.isEmpty()){
-                scriptStorageService.saveAbstractScriptInfo(articleAbstract);
-                createVideoList.add(createVideoDto);
-            }else {
-                log.info("[이미 존재하는 articleId]");
-            }
+            
+            scriptStorageService.saveAbstractScriptInfo(articleAbstract);
+            createVideoList.add(createVideoDto);
         }
         return createVideoList;
     }
@@ -66,5 +64,6 @@ public class ScriptGenerationService {
                 "  }\n" +
                 "}";
     }
+
 
 }
