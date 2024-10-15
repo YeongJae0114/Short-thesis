@@ -28,13 +28,19 @@ public class KciAbstractService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public List<KciArticleAbstract> getAllAbstract(String title, String affiliation) {
-        URI uri = buildUri(title, affiliation);  // 메서드 호출로 URI 구성
-        List<KciArticleAbstract> abstractInfoList = new ArrayList<>();
+        // 메서드 호출로 URI 구성
+        URI uri = buildUri(title, affiliation);
 
         // RestTemplate을 사용하여 XML 응답 받기
         String xmlResponse = restTemplate.getForObject(uri, String.class);
 
-        // XML 응답 파싱
+        return parseXmlResponse(xmlResponse);
+    }
+
+    // XML 응답 파싱
+    private List<KciArticleAbstract> parseXmlResponse(String xmlResponse) {
+        List<KciArticleAbstract> abstractInfoList = new ArrayList<>();
+
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(MetaData.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -45,15 +51,10 @@ public class KciAbstractService {
                     if (record.getArticleInfo() != null && record.getArticleInfo().getAbstractGroup() != null) {
                         KciArticleAbstract abstractInfo = new KciArticleAbstract();
                         abstractInfo.setArticleId(record.getArticleInfo().getArticleId());
-                        // 논문 제목 설정
                         abstractInfo.setArticleTitle(record.getArticleInfo().getOriginalTitle());
-                        // 저자 목록 설정
                         abstractInfo.setAuthors(extractAuthors(record));
-                        // 초록 설정
                         abstractInfo.setAbstractCt(extractOriginalAbstract(record));
-                        // URL 설정
                         abstractInfo.setUrl(record.getArticleInfo().getUrl());
-                        // 출판 년도 설정
                         abstractInfo.setPubYear(record.getJournalInfo().getPubYear());
 
                         abstractInfoList.add(abstractInfo);
