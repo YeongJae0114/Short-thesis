@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface GeneratedScriptRepository extends JpaRepository<AbstractScriptInfo, Long> {
     Optional<AbstractScriptInfo> findByArticleId(String articleId);
-
+    Optional<AbstractScriptInfo> findFirstByVideoUrlIsNull();
 
 }
