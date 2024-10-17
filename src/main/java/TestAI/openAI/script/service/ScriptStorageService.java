@@ -5,6 +5,7 @@ import TestAI.openAI.script.entity.AbstractScriptInfo;
 import TestAI.openAI.script.entity.Author;
 import TestAI.openAI.script.repository.AuthorRepository;
 import TestAI.openAI.script.repository.GeneratedScriptRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -60,9 +61,14 @@ public class ScriptStorageService {
 
     public void updateVideoUrlByArticleId(String articleId, String videoUrl){
         Optional<AbstractScriptInfo> byArticleId = generatedScriptRepository.findByArticleId(articleId);
-        AbstractScriptInfo abstractScriptInfo = byArticleId.get();
-        abstractScriptInfo.setVideoUrl(videoUrl);
-        generatedScriptRepository.save(abstractScriptInfo);
+        if(byArticleId.isPresent()){
+            AbstractScriptInfo abstractScriptInfo = byArticleId.get();
+            abstractScriptInfo.setVideoUrl(videoUrl);
+            generatedScriptRepository.save(abstractScriptInfo);
+        }else {
+            throw new EntityNotFoundException();
+        }
+
     }
 
 }
