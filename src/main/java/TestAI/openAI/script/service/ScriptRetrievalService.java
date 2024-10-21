@@ -30,4 +30,8 @@ public class ScriptRetrievalService {
             return null;
         }
     }
+    public AbstractScriptInfo getAbstractScriptInfo(String articleId) {
+        Optional<AbstractScriptInfo> byArticleId = generatedScriptRepository.findByArticleId(articleId);
+        return byArticleId.orElse(null);
+    }
 }
