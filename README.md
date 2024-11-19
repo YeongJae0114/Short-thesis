@@ -52,6 +52,9 @@ GPT-4를 활용하여 초록을 요약 및 각색한 스크립트를 생성하�
 ![image](https://github.com/user-attachments/assets/cbe3c082-238c-40d7-8d6a-d9a1bc356f38)
 
 ---
+## API 문서
+- [**API 문서**](https://github.com/YeongJae0114/Short-thesis/blob/main/API_DOCUMENTATION.md)
+---
 
 ## 참고 자료  
 - [OpenAI GPT-4 Documentation](https://openai.com/gpt-4)  
