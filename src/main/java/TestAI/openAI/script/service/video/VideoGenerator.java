@@ -1,22 +1,16 @@
-package TestAI.openAI.script.service;
+package TestAI.openAI.script.service.video;
 
 import TestAI.openAI.script.dto.CreateVideoDto;
 import TestAI.openAI.script.entity.AbstractScriptInfo;
 import TestAI.openAI.script.repository.GeneratedScriptRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class ScriptRetrievalService {
+public class VideoGenerator {
     private final GeneratedScriptRepository generatedScriptRepository;
-
-    public List<AbstractScriptInfo> getAllAbstractScriptInfo(){
-        return generatedScriptRepository.findAll();
-    }
 
     public CreateVideoDto createVideoDto() {
         Optional<AbstractScriptInfo> firstByVideoUrlIsNull = generatedScriptRepository.findFirstByVideoUrlIsNull();
@@ -29,9 +23,5 @@ public class ScriptRetrievalService {
         } else {
             return null;
         }
-    }
-    public AbstractScriptInfo getAbstractScriptInfo(String articleId) {
-        Optional<AbstractScriptInfo> byArticleId = generatedScriptRepository.findByArticleId(articleId);
-        return byArticleId.orElse(null);
     }
 }
