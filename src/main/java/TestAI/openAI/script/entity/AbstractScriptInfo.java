@@ -1,6 +1,9 @@
 package TestAI.openAI.script.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +23,5 @@ public class AbstractScriptInfo {
     private String url;
     private int pubYear;
     private String videoUrl;
+
 }

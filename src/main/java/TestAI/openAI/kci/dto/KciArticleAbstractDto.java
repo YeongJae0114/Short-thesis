@@ -1,10 +1,10 @@
-package TestAI.openAI.kci.abstractInfo;
+package TestAI.openAI.kci.dto;
 
 import lombok.Data;
 
 import java.util.List;
 @Data
-public class KciArticleAbstract {
+public class KciArticleAbstractDto {
     private String articleId;
     private String articleTitle;
     private List<String> authors;

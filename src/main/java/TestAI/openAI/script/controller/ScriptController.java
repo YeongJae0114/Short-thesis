@@ -13,16 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class ScriptController {
-    private final ScriptGenerationService scriptGenerationService;
     private final ShortFormVideoService shortFormVideoService;
     private final ScriptStorageService scriptStorageService;
-
-    // KCI 논문 조회
-//    @GetMapping("/search")
-//    public List<KciArticleAbstractDto> searchArticles(@RequestParam String title,
-//                                                      @RequestParam String affiliation) {
-//        return scriptGenerationService.createScript(title, affiliation);
-//    }
 
     @PostMapping("/sendShortForm")
     public String sendShortForm(){
