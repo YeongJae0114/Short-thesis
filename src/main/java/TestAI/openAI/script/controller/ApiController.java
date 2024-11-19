@@ -1,9 +1,7 @@
 package TestAI.openAI.script.controller;
 
 import TestAI.openAI.script.entity.AbstractScriptInfo;
-import TestAI.openAI.script.entity.Author;
-import TestAI.openAI.script.service.AuthorService;
-import TestAI.openAI.script.service.ScriptRetrievalService;
+import TestAI.openAI.script.service.script.ScriptStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,21 +10,19 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ApiController {
-    private final ScriptRetrievalService scriptRetrievalService;
-    private final AuthorService authorService;
+    private final ScriptStorageService scriptStorageService;
 
-    @GetMapping("/api/abstract-script-info")
+    @GetMapping("/api/script")
     public List<AbstractScriptInfo> getAllScript(){
-        return scriptRetrievalService.getAllAbstractScriptInfo();
+        return scriptStorageService.getAllAbstractScriptInfo();
     }
 
     @GetMapping("/api/script/{articleId}")
     public AbstractScriptInfo getAllScriptInfo(@PathVariable String articleId){
-        return scriptRetrievalService.getAbstractScriptInfo(articleId);
+        return scriptStorageService.getAbstractScriptInfo(articleId);
     }
 
-    @GetMapping("/api/author/{articleId}")
-    public List<Author> getAuthor(@PathVariable String articleId){
-        return authorService.findAuthors(articleId);
-    }
+
+
+
 }
