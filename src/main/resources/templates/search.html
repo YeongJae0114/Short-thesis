@@ -4,18 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>논문 검색</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #0073e6;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+        }
+        main {
+            margin: 40px auto;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background-color: #0073e6;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-<h1>논문 검색</h1>
+<header>
+    <h1>논문 검색</h1>
+</header>
 
-<form th:action="@{/search}" method="get">
-    <label for="title">논문 제목:</label>
-    <input type="text" id="title" name="title"><br><br>
+<main>
+    <form th:action="@{/search}" method="get">
+        <label for="title">논문 제목</label>
+        <input type="text" id="title" name="title" placeholder="논문 제목 입력">
 
-    <label for="affiliation">소속:</label>
-    <input type="text" id="affiliation" name="affiliation"><br><br>
+        <label for="affiliation">소속</label>
+        <input type="text" id="affiliation" name="affiliation" placeholder="소속 입력">
 
-    <button type="submit">검색</button>
-</form>
+        <label for="keyword">키워드</label>
+        <input type="text" id="keyword" name="keyword" placeholder="키워드 입력">
+
+        <label for="author">저자</label>
+        <input type="text" id="author" name="author" placeholder="저자 이름 입력">
+
+        <button type="submit">검색</button>
+    </form>
+</main>
+
+<footer>
+    &copy; 2024학년도 캡스톤디자인, 짧은 논문
+</footer>
 </body>
 </html>
