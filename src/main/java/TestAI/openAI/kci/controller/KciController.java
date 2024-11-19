@@ -18,8 +18,10 @@ public class KciController {
 
     @GetMapping("/search")
     public List<KciArticleAbstractDto> searchArticles(@RequestParam String title,
-                                                      @RequestParam String affiliation) {
-        List<KciArticleAbstractDto> abstractDtoList = kciAbstractService.getAllAbstract(title, affiliation);
+                                                      @RequestParam String affiliation,
+                                                      @RequestParam String keyword,
+                                                      @RequestParam String author) {
+        List<KciArticleAbstractDto> abstractDtoList = kciAbstractService.getAllAbstract(title, affiliation, keyword, author);
         try {
             // 스크립트 생성 및 저장 로직 호출
             abstractDtoList = scriptGenerationService.createAndStoreScript(abstractDtoList);

@@ -1,6 +1,6 @@
 package TestAI.openAI.kci.service;
 
-import TestAI.openAI.kci.abstractInfo.KciArticleAbstract;
+import TestAI.openAI.kci.dto.KciArticleAbstractDto;
 import TestAI.openAI.kci.xmlResponse.MetaData;
 import TestAI.openAI.kci.xmlResponse.Record;
 import TestAI.openAI.kci.xmlResponse.recode.articleInfo.AbstractContent;
@@ -21,25 +21,21 @@ import java.util.List;
 public class KciAbstractService {
     @Value("${kci.base-api-url}")
     private String BASE_API_URL;
-
     @Value("${kci.api-key}")
     private String API_KEY;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    private RestTemplate restTemplate = new RestTemplate();
-
-    public List<KciArticleAbstract> getAllAbstract(String title, String affiliation) {
+    public List<KciArticleAbstractDto> getAllAbstract(String title, String affiliation, String keyword, String author) {
         // 메서드 호출로 URI 구성
-        URI uri = buildUri(title, affiliation);
-
+        URI uri = buildUri(title, affiliation, keyword, author);
         // RestTemplate을 사용하여 XML 응답 받기
         String xmlResponse = restTemplate.getForObject(uri, String.class);
-
         return parseXmlResponse(xmlResponse);
     }
 
     // XML 응답 파싱
-    private List<KciArticleAbstract> parseXmlResponse(String xmlResponse) {
-        List<KciArticleAbstract> abstractInfoList = new ArrayList<>();
+    private List<KciArticleAbstractDto> parseXmlResponse(String xmlResponse) {
+        List<KciArticleAbstractDto> abstractInfoList = new ArrayList<>();
 
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(MetaData.class);
@@ -49,7 +45,7 @@ public class KciAbstractService {
             if (metaData.getOutputData() != null && metaData.getOutputData().getRecords() != null) {
                 for (Record record : metaData.getOutputData().getRecords()) {
                     if (record.getArticleInfo() != null && record.getArticleInfo().getAbstractGroup() != null) {
-                        KciArticleAbstract abstractInfo = new KciArticleAbstract();
+                        KciArticleAbstractDto abstractInfo = new KciArticleAbstractDto();
                         abstractInfo.setArticleId(record.getArticleInfo().getArticleId());
                         abstractInfo.setArticleTitle(record.getArticleInfo().getOriginalTitle());
                         abstractInfo.setAuthors(extractAuthors(record));
@@ -90,12 +86,14 @@ public class KciAbstractService {
     }
 
     // uri 동적으로 생성
-    private URI buildUri(String title, String affiliation) {
+    private URI buildUri(String title, String affiliation, String keyword, String author) {
         return UriComponentsBuilder.fromHttpUrl(BASE_API_URL)
                 .queryParam("apiCode", "articleSearch")
                 .queryParam("key", API_KEY)
                 .queryParam("title", title)
                 .queryParam("affiliation", affiliation)
+                .queryParam("keyword", keyword)
+                .queryParam("author", author)
                 .build()
                 .encode()
                 .toUri();
