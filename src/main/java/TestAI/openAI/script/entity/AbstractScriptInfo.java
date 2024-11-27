@@ -19,6 +19,9 @@ public class AbstractScriptInfo {
     private String articleId;
     private String articleTitle;
     @Column(columnDefinition = "TEXT")
+    private String abstractCt;
+
+    @Column(columnDefinition = "TEXT")
     private String shortFormScript;
     private String url;
     private int pubYear;

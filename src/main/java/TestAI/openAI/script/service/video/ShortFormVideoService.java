@@ -34,4 +34,9 @@ public class ShortFormVideoService {
         reqShortFormScripts(videoDto);
     }
 
+    public void sendShortForm(String articleId){
+        CreateVideoDto videoDto = videoGenerator.createVideoDto();
+        reqShortFormScripts(videoDto);
+    }
+
 }

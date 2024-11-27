@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .comparison-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .comparison-item {
+            display: flex;
+            flex-direction: row;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        .info {
+            width: 30%;
+            border-right: 1px solid #ccc;
+            padding-right: 15px;
+        }
+        .content {
+            width: 70%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .section {
+            width: 45%;
+        }
+        .section h3 {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .section p {
+            background: #fff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #444;
+        }
+        .action-link {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .action-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .action-link a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Search Results</h1>
+
+<div class="comparison-container">
+    <div th:each="article : ${comparisonList}" class="comparison-item">
+        <!-- Common Info Section -->
+        <div class="info">
+            <h2 th:text="${article.articleTitle}">Article Title</h2>
+            <p><strong>Authors:</strong> <span th:each="author : ${article.authors}" th:text="${author}"></span></p>
+            <p><strong>Year:</strong> <span th:text="${article.pubYear}">Year</span></p>
+            <div class="action-link">
+                <!-- Action Button -->
+                <a th:href="@{/sendShortForm/{articleId}(articleId=${article.articleId})}" target="_blank">Send Short Form</a>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content">
+            <!-- Original Abstract -->
+            <div class="section">
+                <h3>Original Abstract</h3>
+                <p th:text="${article.abstractCt}">Original Abstract</p>
+            </div>
+
+            <!-- Generated Script -->
+            <div class="section">
+                <h3>Generated Script</h3>
+                <p th:text="${article.shortFormScript ?: 'No script available'}">Generated Script</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

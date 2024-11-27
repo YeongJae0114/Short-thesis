@@ -24,4 +24,17 @@ public class VideoGenerator {
             return null;
         }
     }
+    public CreateVideoDto createVideoDto(String articleId){
+        Optional<AbstractScriptInfo> firstByVideoUrlIsNull = generatedScriptRepository.findByArticleId(articleId);
+        if (firstByVideoUrlIsNull.isPresent()) {
+            AbstractScriptInfo abstractScriptInfo = firstByVideoUrlIsNull.get();
+            CreateVideoDto createVideoDto = new CreateVideoDto();
+            createVideoDto.setArticleId(abstractScriptInfo.getArticleId());
+            createVideoDto.setShortFormScript(abstractScriptInfo.getShortFormScript());
+            return createVideoDto;
+        } else {
+            return null;
+        }
+    }
+
 }
