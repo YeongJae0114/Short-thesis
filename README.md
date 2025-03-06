@@ -1,64 +1,84 @@
 # Short-Form Script Generator
-## 프로젝트 설명  
-이 프로젝트는 연구 논문의 초록을 기반으로 숏폼 대본을 자동으로 생성하는 서비스입니다.  
-GPT-4를 활용하여 초록을 요약 및 각색한 스크립트를 생성하고, Python OpenCV를 통해 영상을 제작합니다.
+![image](https://github.com/user-attachments/assets/4c68c44b-7a3e-4281-8532-00bb74675c96)
 
----
 
-## 목표  
-1. 논문의 초록과 상세 정보를 저장  
-2. 논문의 초록을 활용하여 관심을 끌만한 숏폼 대본 작성  
-    - **OpenAI**  
-    - **Spring AI**  
-3. DB 관리  
-    - MySQL  
-    - 표준 ORM인 JPA 사용  
-    - DB 최적화  
+> 목차
+>
+> - [📌 프로젝트 소개](#프로젝트-소개)
+> - [👩‍💻 팀원 소개](#팀원-소개)
+> - [✏️ 주요 기능](#주요-기능)
+> - [🚩 시작 가이드](#시작-가이드)
 
----
+<br>
 
-## 개발 환경 및 사용 기술  
-**환경**  
-- Java 17 이상  
-- Spring Boot 3.3.4  
+## 프로젝트 소개
 
-**기술**  
-1. **데이터 관리**  
-    - JPA  
-    - MySQL  
-2. **AI 모델 활용**  
-    - OpenAI API (Spring AI 사용)  
-3. **비동기 처리**  
-    - Spring WebFlux  
-4. **API 문서화**  
-    - Swagger  
+### 개발 동기 및 목적
 
----
+논문의 초록을 바탕으로 숏츠(Shorts) 영상을 자동으로 생성하는 시스템을 개발하였습니다. 연구 논문의 핵심 내용을 짧고 쉽게 전달할 수 있도록, GPT-4를 활용해 대본을 자동 생성하고, 다양한 API를 연동하여 영상을 자동으로 제작하는 것이 목표였습니다.
 
-## 사용 시나리오  
-1. **논문 데이터 가져오기**  
-    - KCI Open API를 사용해 논문의 초록과 세부 정보를 가져옵니다.  
+<br>
 
-2. **비디오 스크립트 생성**  
-    - Spring AI를 활용해 GPT-4 모델을 프롬프팅하여 흥미로운 숏폼 대본을 생성합니다.  
+### 서비스 소개
 
-3. **비디오 생성**  
-    - Python으로 작성된 동영상 생성 API에 생성한 대본을 전달합니다.  
-    - 생성된 동영상의 URL을 데이터베이스에 저장합니다.  
+> 논문을 쉽고 빠르게 이해할 수 있도록, 자동으로 숏츠 영상을 제작하는 시스템
 
----
+1. **📜 논문 데이터 수집**
+   - KCI OPEN API를 활용하여 논문 초록 및 정보를 수집
+   - 수집한 데이터를 데이터베이스에 저장 및 관리
+   
+2. **✏️ GPT를 활용한 자동 대본 생성**
+   - 논문의 초록을 기반으로 GPT-4 모델을 이용하여 짧은 영상 스크립트 생성
+   - 자연스럽고 핵심적인 요약이 가능하도록 프롬프트 최적화
+   
+3. **🎥 영상 제작 API 구현**
+   - Pixabay API 등을 활용해 영상 소스 확보
+   - 동영상 제작 프로세스를 비동기적으로 처리하여 서버 부담 최소화
+   - 동영상 제작 시간이 길어, 최대 10개까지 동시 제작 가능하도록 최적화
 
-## 비즈니스 구조
-![image](https://github.com/user-attachments/assets/cbe3c082-238c-40d7-8d6a-d9a1bc356f38)
+<br>
 
----
-## API 문서
-- [**API 문서**](https://github.com/YeongJae0114/Short-thesis/blob/main/API_DOCUMENTATION.md)
----
+### 개발 기간
 
-## 참고 자료  
-- [OpenAI GPT-4 Documentation](https://openai.com/gpt-4)  
-- [KCI Open API](https://www.kci.go.kr)  
-- [OpenCV Documentation](https://docs.opencv.org)  
+2023.08 - 2023.10
 
----
+<br>
+
+## 팀원 소개
+
+|          [이영재](https://github.com/YeongJae0114)          |          [오예찬](https://github.com/happy-yeachan)             | 
+| :--------------------------------------------------------: | :-------------------------------------------------------: |
+| <img src="https://github.com/YeongJae0114.png" width="100"> | <img src="https://github.com/happy-yeachan.png" width="100"> |
+|                             BE                             |                            BE                             | 
+
+<br>
+
+## 주요 기능
+
+> - 📜 논문 정보 수집
+> - ✏️ GPT-4 기반 자동 대본 생성
+> - 🎥 숏츠 자동 제작
+> - 🔄 비동기 기반 영상 생성 API 구현
+
+<br>
+
+## 프로그램_설계_흐름도
+![프로그램_설계_흐름도](https://github.com/user-attachments/assets/a0e6ec42-5ca4-4df9-a03f-04a3e984db97)
+
+
+
+
+<br>
+
+## 시작 가이드
+
+```bash
+# 프로젝트 클론
+$ git clone https://github.com/YeongJae0114/shorts-generator.git
+
+# 백엔드 실행
+$ cd backend
+$ ./gradlew bootRun
+```
+
+
