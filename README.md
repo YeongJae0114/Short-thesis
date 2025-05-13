@@ -1,4 +1,4 @@
-# 🎬 Short-Form Script Generator
+# Short-Form Script Generator
 
 ![대표 이미지](https://github.com/user-attachments/assets/4c68c44b-7a3e-4281-8532-00bb74675c96)
 
@@ -6,32 +6,34 @@
 
 ## 🚀 프로젝트 개요
 
-### 📌 개발 배경
+### 개발 배경
 
 전문적인 연구 논문은 중요한 정보를 담고 있지만, 대중에게는 접근성이 떨어집니다.
 이를 해결하기 위해, **논문의 핵심 내용을 누구나 빠르게 이해할 수 있도록**
 GPT-4와 영상 API를 활용해 숏폼 영상 콘텐츠를 자동으로 생성하는 시스템을 개발하게 되었습니다.
 
-### 🎯 프로젝트 목표
-
+### 프로젝트 목표
 * 논문 초록을 기반으로 **영상 스크립트를 자동 생성**
 * 영상 제작 과정을 **API 기반으로 자동화**
 * 사용자는 논문만 업로드하면, **짧은 숏츠 영상이 자동 생성**됨
 
-
 ## 🛠 주요 기능
-
-| 기능 카테고리         | 상세 설명                                                         |
-| --------------- | ------------------------------------------------------------- |
-| **📜 논문 수집**    | - KCI Open API를 활용하여 논문 메타데이터 및 초록 수집<br>- 수집한 데이터를 MySQL에 저장 |
-| **✏️ 대본 생성**    | - GPT-4를 활용한 숏츠 영상용 대본 생성<br>- 초록을 쉽게 요약해주는 Prompt 구성 및 튜닝    |
-| **🎥 영상 자동 제작** | - Pixabay API 등에서 영상 리소스 확보<br>- OpenCV를 활용해 영상 제작 자동화        |
-| **🔄 비동기 처리**   | - 영상 제작 요청은 비동기로 처리되어, 서버 부하 최소화<br>- 최대 10개까지 병렬 처리 가능       |
-| **📦 데이터 관리**   | - 생성된 스크립트와 메타데이터는 모두 DB에 저장<br>- 재활용 및 영상 재요청 가능             |
-
+* **논문 수집**
+  * KCI Open API를 통해 논문의 메타데이터 및 초록을 수집합니다.
+  * 수집한 논문 정보는 MySQL에 저장되어 관리됩니다.
+* **대본 생성**
+  * GPT-4를 활용하여 숏츠 영상용 대본을 자동 생성합니다.
+  * 초록 내용을 이해하기 쉽게 요약할 수 있도록 프롬프트 구조를 설계하고 튜닝했습니다.
+* **영상 자동 제작**
+  * Pixabay API 등에서 관련된 영상 리소스를 수집합니다.
+  * OpenCV를 활용해 텍스트 기반 스크립트를 영상으로 자동 생성합니다.
+* **비동기 처리**
+  * 영상 생성 작업은 비동기로 처리되어, 서버의 응답성을 유지합니다.
+* **데이터 관리**
+  * 생성된 영상 스크립트와 메타데이터는 모두 DB에 저장됩니다.
+  * 동일한 논문에 대해 영상 재요청도 가능하도록 설계했습니다.
 
 ## 🧩 프로젝트 구조
-
 ### 전체 흐름
 <img width="600" alt="image" src="https://github.com/user-attachments/assets/b3a78317-874a-4787-a43f-245c56b27783" />
 
@@ -80,6 +82,5 @@ $ ./gradlew bootRun
 [![Notion](https://img.shields.io/badge/Archive-Notion-000000?logo=notion&logoColor=white)](https://lopsided-stallion-c16.notion.site/1cdc94c8d6d180839392cedced75d68d?pvs=4)
 
 ## 📎 관련 링크
-* 🔗 [KCI API 문서](https://www.kci.go.kr/kciportal/po/openapi/openApiMain.kci)
-* 🔗 [Pixabay API 문서](https://pixabay.com/api/docs/)
-* 🔗 [프로젝트 정리 노션](https://lopsided-stallion-c16.notion.site/shorts-generator-overview)
+* [KCI API 문서](https://www.kci.go.kr/kciportal/po/openapi/openApiMain.kci)
+* [Pixabay API 문서](https://pixabay.com/api/docs/)
